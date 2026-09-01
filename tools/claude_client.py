@@ -3,7 +3,7 @@ from config import ANTHROPIC_API_KEY, CLAUDE_MODEL, MAX_TOKENS, validate_config
 
 def ask_claude(prompt, system=None):
     validate_config()
-    client = Anthropic()
+    client = Anthropic(api_key=ANTHROPIC_API_KEY)
 
     params = {
         "model": CLAUDE_MODEL,

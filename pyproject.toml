@@ -1,0 +1,20 @@
+[project]
+name = "job-matching-advisor"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Nour Ziada", email = "eng.nour.ziadaa@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "anthropic>=1.2.0",
+    "python-dotenv>=1.2.3",
+]
+
+[project.scripts]
+job-matching-advisor = "job_matching_advisor:main"
+
+[build-system]
+requires = ["uv_build>=0.12.8,<0.13.0"]
+build-backend = "uv_build"

@@ -6,6 +6,9 @@ load_dotenv()
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 CLAUDE_MODEL = os.getenv("CLAUDE_MODEL", "claude-sonnet-4-6")
 MAX_TOKENS = int(os.getenv("MAX_TOKENS", "2048"))
+CV_DIR = os.getenv("CV_PATH")
+VOYAGE_API_KEY = os.getenv("VOYAGE_API_KEY")
+VOYAGE_MODEL = os.getenv("VOYAGE_MODEL", "voyage-4")
 
 def validate_config():
     if not ANTHROPIC_API_KEY or not ANTHROPIC_API_KEY.startswith("sk-ant-"):

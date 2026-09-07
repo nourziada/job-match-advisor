@@ -2,6 +2,7 @@ from rag.pdf_loader import load_cv_text
 from rag.chunker import chunk_cv
 from rag.embedder import embed_texts
 from config import CV_DIR
+from rag.store import save_index
 import os
 
 def main():
@@ -17,6 +18,10 @@ def main():
     print("3. توليد الـ embeddings...")
     vectors = embed_texts(chunks)
     print(vectors[0])
+
+    print("4. التخزين...")
+    save_index(chunks, vectors)
+    print("تم بناء الفهرس بنجاح.")
 
     [print(chunk + "\n-- New Chunk --\n") for chunk in chunks]
 if __name__ == "__main__":

@@ -4,6 +4,8 @@ from rag.search import search_cv
 from tools.claude_client import get_client
 from config import CLAUDE_MODEL, MAX_TOKENS
 from prompts.decision import DECISION_SYSTEM_PROMPT, DECISION_TOOL
+from tools.claude_client import stream_claude
+
 
 # ---------------------------------------------------------------------------
 # Chain link 1 — extract the job requirements
@@ -75,6 +77,15 @@ Record your final decision using the submit_job_decision tool."""
 
     return None  # no tool_use block was returned (unexpected)
 
+def stream_decision_summary(decision: dict):
+    """يبثّ شرح بشري مختصر للقرار."""
+    prompt = f"""This is a structured job analysis decision:
+{decision}
+
+Write a brief, human-readable explanation (3-4 sentences) explaining why this decision was made,
+using a friendly and direct tone. In English"""
+    yield from stream_claude(prompt)
+
 # ---------------------------------------------------------------------------
 # The full chain
 # ---------------------------------------------------------------------------
@@ -86,3 +97,4 @@ def analyze_job(job_text: str) -> dict:
     cv_evidence = gather_cv_evidence(requirements)       # link 2
     decision = make_decision(requirements, cv_evidence)  # link 3
     return decision
+

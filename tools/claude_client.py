@@ -32,3 +32,22 @@ def get_client():
         validate_config()
         _client = Anthropic(api_key=ANTHROPIC_API_KEY)
     return _client
+
+
+def stream_claude(prompt: str, system: str | None = None):
+    """
+    Claude Response as Streaming
+    """
+    client = get_client()
+    params = {
+        "model": CLAUDE_MODEL,
+        "max_tokens": MAX_TOKENS,
+        "thinking": {"type": "disabled"},
+        "messages": [{"role": "user", "content": prompt}],
+    }
+    if system:
+        params["system"] = system
+
+    with client.messages.stream(**params) as stream:
+        for text in stream.text_stream:
+            yield text

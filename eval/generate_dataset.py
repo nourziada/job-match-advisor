@@ -12,6 +12,21 @@ Analyze a job posting against a Senior Laravel/PHP developer's CV
 / do-not-apply decision.
 </task_description>
 
+The tool being tested applies these HARD CONSTRAINTS. Any posting that breaks
+one of them must be rejected outright, no matter how well the skills match:
+1. The job must be fully Remote. Hybrid and On-site are rejected.
+2. The location must be in Europe, North America, or the Gulf countries (GCC).
+3. Jobs based in India or Egypt are rejected.
+
+Two rules you MUST follow when writing the cases:
+- Every job_posting MUST state the work arrangement (Remote / Hybrid / On-site)
+  AND the company location explicitly in its text. The tool can only judge what
+  the posting actually says.
+- The solution_criteria MUST agree with the hard constraints above. Never write
+  a criterion expecting "apply" or "apply with caution" for a posting that is
+  Hybrid, On-site, or based in an excluded country - the correct answer there is
+  always "do not apply".
+
 Generate {n} diverse test cases. Vary the scenarios to cover:
 - A perfect match (should clearly apply)
 - A partial match (missing a secondary skill or slightly less experience)

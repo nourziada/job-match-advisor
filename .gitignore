@@ -8,3 +8,4 @@ data/cv/*.pdf
 *.db
 data/cv_chunks.json
 data
+eval_report.html

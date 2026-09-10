@@ -1,0 +1,54 @@
+[
+  {
+    "task_description": "Analyze a job posting against a Senior Laravel/PHP developer's CV (9+ years experience, ex-Team Lead) and give a clear apply / apply-with-caution / do-not-apply decision.",
+    "scenario": "Perfect match: remote Senior Laravel role requiring 8+ years, team leadership experience, and standard PHP stack requirements that align exactly with the candidate's background.",
+    "prompt_inputs": {
+      "job_posting": "Senior Laravel Developer (Remote, Full-time)\n\nWe are a fintech scale-up looking for a Senior Laravel Developer to join our fully remote engineering team. You will work closely with our CTO to architect and maintain our core platform, mentor junior developers, and help shape technical direction.\n\nRequirements:\n- 8+ years of professional PHP development experience\n- 5+ years of hands-on Laravel experience\n- Proven experience leading or mentoring a development team\n- Strong knowledge of MySQL, Redis, and REST API design\n- Experience with Docker and CI/CD pipelines\n- Excellent English communication skills\n- Fully remote, must overlap 4 hours with GMT+1\n\nNice to have:\n- Experience with Vue.js\n- Experience with AWS\n\nWe offer competitive salary ($90k-$120k), fully remote work from anywhere, flexible hours, and a collaborative team culture."
+    },
+    "solution_criteria": [
+      "Final decision is clearly 'apply'",
+      "Explicitly notes that 9+ years experience exceeds the 8+ years requirement",
+      "Explicitly notes that ex-Team Lead background matches the leadership/mentoring requirement",
+      "Confirms remote work arrangement is compatible with candidate"
+    ]
+  },
+  {
+    "task_description": "Analyze a job posting against a Senior Laravel/PHP developer's CV (9+ years experience, ex-Team Lead) and give a clear apply / apply-with-caution / do-not-apply decision.",
+    "scenario": "Partial match: role requires Laravel and PHP experience but also demands strong, specific expertise in a secondary skill (Kubernetes/DevOps) that is not part of the candidate's core background, and slightly higher seniority framing.",
+    "prompt_inputs": {
+      "job_posting": "Senior Backend Engineer - Laravel & DevOps (Hybrid, 2 days/week office in Berlin)\n\nWe're hiring a Senior Backend Engineer to join our platform team. This role blends backend development with infrastructure ownership.\n\nRequirements:\n- 10+ years of software engineering experience\n- Expert-level Laravel and PHP skills\n- Deep hands-on experience with Kubernetes, Helm, and infrastructure-as-code (Terraform)\n- Experience owning production infrastructure and on-call rotations\n- Strong understanding of microservices architecture\n- Experience with GraphQL APIs\n\nPreferred:\n- Previous experience as a technical lead\n- Experience with event-driven architectures (Kafka, RabbitMQ)\n\nLocation: Berlin, Germany, hybrid (2 days per week in office required)\nVisa sponsorship available for EU candidates only.\n\nSalary: €75,000 - €95,000"
+    },
+    "solution_criteria": [
+      "Final decision is 'apply with caution' (not a clean apply, not an outright rejection)",
+      "Identifies the Kubernetes/Terraform/infrastructure ownership requirement as a gap versus the candidate's profile",
+      "Notes the 10+ years requirement is slightly above the candidate's 9+ years, or flags it as a minor concern",
+      "Flags the hybrid Berlin office requirement as a potential constraint needing clarification"
+    ]
+  },
+  {
+    "task_description": "Analyze a job posting against a Senior Laravel/PHP developer's CV (9+ years experience, ex-Team Lead) and give a clear apply / apply-with-caution / do-not-apply decision.",
+    "scenario": "Wrong-framework candidate: posting is for a Senior Node.js/Python engineer role with no PHP or Laravel requirement, testing whether the model correctly identifies a fundamental tech-stack mismatch.",
+    "prompt_inputs": {
+      "job_posting": "Senior Node.js / Python Backend Engineer (Remote - US timezones)\n\nOur SaaS company is looking for a Senior Backend Engineer to help scale our data processing platform.\n\nRequirements:\n- 7+ years of backend development experience\n- Expert-level Node.js and TypeScript\n- Strong Python skills for data pipeline development\n- Experience with FastAPI or Express.js\n- Experience with PostgreSQL and MongoDB\n- Familiarity with event-driven systems (Kafka, SQS)\n- Experience with AWS Lambda and serverless architectures\n\nNice to have:\n- Experience with Go\n- Experience mentoring engineers\n\nThis is a fully remote role but candidates must be based in and authorized to work in the United States, working core hours aligned with PST/EST.\n\nSalary: $140,000 - $170,000"
+    },
+    "solution_criteria": [
+      "Final decision is 'do not apply'",
+      "Clearly identifies that the role requires Node.js/Python/TypeScript expertise, not PHP/Laravel, as the primary disqualifying mismatch",
+      "Does not overweight the transferable soft skills (e.g., mentoring, years of experience) as sufficient to compensate for the core language/framework mismatch",
+      "Mentions the US-based work authorization requirement as an additional barrier if candidate is not US-based/authorized"
+    ]
+  },
+  {
+    "task_description": "Analyze a job posting against a Senior Laravel/PHP developer's CV (9+ years experience, ex-Team Lead) and give a clear apply / apply-with-caution / do-not-apply decision.",
+    "scenario": "Hard-constraint failure: strong Laravel/PHP skill match on paper, but the role is strictly on-site in a location incompatible with a remote-seeking candidate, and requires relocation without sponsorship.",
+    "prompt_inputs": {
+      "job_posting": "Senior PHP/Laravel Developer - On-Site Only (Singapore)\n\nJoin our e-commerce company as a Senior Laravel Developer. This is a fully on-site position based in our Singapore headquarters. No remote or hybrid work options are available.\n\nRequirements:\n- 6+ years of PHP development experience\n- Strong Laravel framework expertise\n- Experience with MySQL, Redis, and Elasticsearch\n- Experience leading small development teams\n- Must be a Singapore citizen, Permanent Resident, or already hold a valid work pass (no visa sponsorship provided)\n- Must be available to work on-site 5 days/week at our Singapore office\n\nNice to have:\n- Experience with Vue.js or React\n\nSalary: SGD 8,000 - 10,000/month"
+    },
+    "solution_criteria": [
+      "Final decision is 'do not apply' (or 'apply with caution' only if explicitly reasoning the candidate could relocate, otherwise defaults to do-not-apply)",
+      "Clearly flags the mandatory on-site 5 days/week requirement in Singapore as a hard constraint",
+      "Flags the lack of visa sponsorship and citizenship/work pass requirement as a disqualifying factor if candidate is not already eligible to work in Singapore",
+      "Notes that the technical skills (Laravel, PHP, team leadership) are otherwise a strong match, isolating location/work authorization as the sole blocker"
+    ]
+  }
+]

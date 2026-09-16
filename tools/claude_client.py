@@ -1,6 +1,7 @@
 from anthropic import Anthropic
 from config import ANTHROPIC_API_KEY, CLAUDE_MODEL, MAX_TOKENS, validate_config
 
+
 def ask_claude(prompt, system=None):
     validate_config()
     client = Anthropic(api_key=ANTHROPIC_API_KEY)
@@ -15,7 +16,7 @@ def ask_claude(prompt, system=None):
     if system:
         params["system"] = system
 
-    response  = client.messages.create(**params)
+    response = client.messages.create(**params)
 
     for block in response.content:
         if block.type == "text":
@@ -25,8 +26,9 @@ def ask_claude(prompt, system=None):
 
 _client = None
 
+
 def get_client():
-    """يرجّع نسخة واحدة من الـ client لإعادة استخدامها (بدل إنشائها كل مرة)."""
+    """Return a single reusable Anthropic client."""
     global _client
     if _client is None:
         validate_config()
@@ -35,9 +37,7 @@ def get_client():
 
 
 def stream_claude(prompt: str, system: str | None = None):
-    """
-    Claude Response as Streaming
-    """
+    """Stream Claude's response text chunk by chunk."""
     client = get_client()
     params = {
         "model": CLAUDE_MODEL,

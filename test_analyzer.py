@@ -1,6 +1,6 @@
 from tools.analyzer import analyze_job
 
-# الصق عرض وظيفة حقيقي هنا للتجربة
+# Paste a real job posting here to try the analyzer
 sample_job = """
 Who we are:Open-minded intellectuals who embrace emerging technologies on our mission to create innovative Software Engineering Solutions that will impact millions of users around the world.
 
@@ -53,10 +53,10 @@ Note*SII Romania is proud to be an equal opportunity workplace. We are committed
 """
 
 result = analyze_job(sample_job)
-print("القرار:", result["decision"])
-print("الثقة:", result["confidence"])
-print("مهارات متطابقة:", result["matched_skills"])
-print("مهارات ناقصة:", result["missing_skills"])
-print("\nالتفصيل:")
+print("Decision:", result["decision"])
+print("Confidence:", result["confidence"])
+print("Matched skills:", result["matched_skills"])
+print("Missing skills:", result["missing_skills"])
+print("\nBreakdown:")
 for r in result["reasoning"]:
     print(f"  - {r['criterion']}: {r['verdict']}")

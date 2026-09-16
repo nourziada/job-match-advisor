@@ -2,9 +2,9 @@ from html import escape
 
 
 def _score_color(s: int) -> str:
-    if s >= 8: return "#16a34a"   # أخضر
-    if s >= 5: return "#d97706"   # برتقالي
-    return "#dc2626"              # أحمر
+    if s >= 8: return "#16a34a"
+    if s >= 5: return "#d97706"
+    return "#dc2626"
 
 
 def render_report(results: list) -> str:
@@ -13,18 +13,18 @@ def render_report(results: list) -> str:
     passed = sum(1 for r in results if r["score"] >= 7)
     rate = (passed / total * 100) if total else 0
 
-    # نبني صفوف الجدول، صف لكل حالة
     rows = ""
     for r in results:
-        strengths = "".join(f"<li>{escape(s)}</li>" for s in r["strengths"]) or "<li>—</li>"
-        weaknesses = "".join(f"<li>{escape(w)}</li>" for w in r["weaknesses"]) or "<li>—</li>"
+        strengths = "".join(f"<li>{escape(s)}</li>" for s in r["strengths"]) or "<li>-</li>"
+        weaknesses = "".join(f"<li>{escape(w)}</li>" for w in r["weaknesses"]) or "<li>-</li>"
         color = _score_color(r["score"])
-        source = r.get("source", "—")
+        source = r.get("source", "-")
 
-        # المعايير اللي الـ grader قاس عليها — من غيرها مش هتعرف الدرجة جت منين
+        # The criteria the grader scored against - without them the score is
+        # impossible to interpret.
         criteria = "".join(
             f"<li>{escape(c)}</li>" for c in r.get("solution_criteria", [])
-        ) or "<li>—</li>"
+        ) or "<li>-</li>"
 
         rows += f'''
         <tr>
@@ -38,23 +38,26 @@ def render_report(results: list) -> str:
         <tr class="detail">
           <td colspan="6">
             <details>
-              <summary>📄 عرض الوظيفة (Prompt Input)</summary>
-              <pre dir="ltr">{escape(r.get("job_posting", "—"))}</pre>
+              <summary>&#129489;&#8205;&#128187; CV used for this case</summary>
+              <pre>{escape(r.get("cv", "-"))}</pre>
             </details>
             <details>
-              <summary>🤖 مخرَج الأداة (Output من analyze_job)</summary>
-              <pre dir="ltr">{escape(r.get("output", "—"))}</pre>
+              <summary>&#128196; Job posting (prompt input)</summary>
+              <pre>{escape(r.get("job_posting", "-"))}</pre>
             </details>
             <details>
-              <summary>📐 المعايير اللي اتقيس عليها (Solution Criteria)</summary>
+              <summary>&#129302; Tool output (from analyze_job)</summary>
+              <pre>{escape(r.get("output", "-"))}</pre>
+            </details>
+            <details>
+              <summary>&#128208; Solution criteria</summary>
               <ul class="crit">{criteria}</ul>
             </details>
           </td>
         </tr>'''
 
-    # نحقن الأرقام والصفوف في قالب HTML
     return f'''<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head><meta charset="utf-8"><title>Evaluation Report</title>
 <style>
   body {{ font-family: system-ui, sans-serif; background:#f8fafc; padding:32px; }}
@@ -65,14 +68,13 @@ def render_report(results: list) -> str:
   .value {{ font-size:32px; font-weight:700; }}
   table {{ width:100%; border-collapse:collapse; background:#fff;
           border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; }}
-  th {{ background:#f1f5f9; padding:12px; text-align:right; font-size:13px; }}
+  th {{ background:#f1f5f9; padding:12px; text-align:left; font-size:13px; }}
   td {{ padding:14px; border-top:1px solid #e2e8f0; font-size:14px; vertical-align:top; }}
   .score {{ color:#fff; padding:4px 10px; border-radius:999px; font-weight:700; }}
   .src {{ background:#e2e8f0; color:#334155; padding:3px 9px; border-radius:999px;
          font-size:12px; white-space:nowrap; }}
   ul {{ margin:0; padding-inline-start:18px; }}
 
-  /* صفوف التفاصيل: عرض الوظيفة + مخرَج الأداة + المعايير */
   tr.detail td {{ background:#f8fafc; padding:8px 14px 14px; border-top:none; }}
   details {{ margin-top:6px; border:1px solid #e2e8f0; border-radius:8px;
             background:#fff; }}
@@ -87,13 +89,13 @@ def render_report(results: list) -> str:
   ul.crit {{ margin:0; padding:12px 30px; font-size:13px; line-height:1.9; }}
 </style></head>
 <body>
-  <h1>📊 Evaluation Report</h1>
+  <h1>&#128202; Evaluation Report</h1>
   <div class="cards">
     <div class="card"><div class="label">Total Test Cases</div>
       <div class="value">{total}</div></div>
     <div class="card"><div class="label">Average Score</div>
       <div class="value">{avg:.1f}/10</div></div>
-    <div class="card"><div class="label">Pass Rate (≥7)</div>
+    <div class="card"><div class="label">Pass Rate (&#8805;7)</div>
       <div class="value">{rate:.0f}%</div></div>
   </div>
   <table>

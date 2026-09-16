@@ -33,6 +33,10 @@ Scoring Guidelines:
 * Score 9-10: Solution meets all mandatory and secondary criteria
 
 IMPORTANT SCORING INSTRUCTIONS:
+* Each criterion is tagged. A criterion prefixed with "[MANDATORY]" is a mandatory
+  requirement. A criterion prefixed with "[SECONDARY]" is a secondary criterion and
+  MUST NOT, on its own, push the score to 3 or lower. If a criterion carries no tag,
+  treat it as secondary.
 * Grade the output based ONLY on the listed criteria. Do not add your own extra requirements.
 * If a solution meets all of the mandatory and secondary criteria give it a 10.
 * ANY violation of a mandatory requirement MUST result in a score of 3 or lower.
@@ -61,7 +65,7 @@ GRADE_SCHEMA = {
 }
 
 def grade(test_case: dict, output: str) -> dict:
-    """Model Grader: يقيّم مخرَج الأداة مقابل معايير الحالة، ويرجّع score من 10 + الأسباب."""
+    """Score the tool output against the case criteria, out of 10, with reasons."""
     client = get_client()
     prompt = EVAL_TEMPLATE.format(
         task_description=test_case["task_description"],

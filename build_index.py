@@ -1,28 +1,29 @@
-from rag.pdf_loader import load_cv_text
-from rag.chunker import chunk_cv
-from rag.embedder import embed_texts
-from config import CV_DIR
-from rag.store import save_index
 import os
+import sys
+
+from config import CV_DIR
+from rag.indexer import build_index_from_path, file_fingerprint, needs_rebuild
+
 
 def main():
     cv_path = os.path.join(CV_DIR, "my_cv.pdf")
 
-    print("1. قراءة الـ CV...")
-    text = load_cv_text(cv_path)
+    if not os.path.exists(cv_path):
+        print(f"No CV found at {cv_path}")
+        return
 
-    print("2. التقطيع...")
-    chunks = chunk_cv(text)
-    print(f"   عدد الـ chunks: {len(chunks)}")
+    with open(cv_path, "rb") as f:
+        fingerprint = file_fingerprint(f.read())
 
-    print("3. توليد الـ embeddings...")
-    vectors = embed_texts(chunks)
-    print(vectors[0])
+    force = "--force" in sys.argv
+    if not force and not needs_rebuild(fingerprint):
+        print("Index is already up to date for this CV. Use --force to rebuild.")
+        return
 
-    print("4. التخزين...")
-    save_index(chunks, vectors)
-    print("تم بناء الفهرس بنجاح.")
+    print("Building the index...")
+    count = build_index_from_path(cv_path)
+    print(f"Index built successfully - {count} chunks.")
 
-    [print(chunk + "\n-- New Chunk --\n") for chunk in chunks]
+
 if __name__ == "__main__":
     main()

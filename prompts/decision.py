@@ -1,50 +1,49 @@
+from prompts.preferences import load_preferences
 
-""" إنت مساعد خبير بيحلل عروض وظيفية ويطابقها بالـ CV بتاع المستخدم."""
-DECISION_SYSTEM_PROMPT = """You are an expert career assistant that analyzes \
-job postings and matches them against the user's CV.
+# The constraint list itself is the user's, and is injected from their stored
+# preferences. Only the mechanics of applying it stay here.
+SYSTEM_PROMPT_TEMPLATE = """You are an expert career assistant that analyzes job postings and matches them against the user's CV.
 
 <hard_constraints>
-These rules are mandatory. If the posting explicitly breaks any of them, the \
-decision MUST be "لا_تقدم" immediately, regardless of how well the skills \
-match:
-1. The job must be fully Remote. Exclude Hybrid and On-site roles.
-2. The company/role location must be within: Europe, North America, or the \
-Gulf countries (GCC).
-3. Immediately exclude any job based in: India, Egypt, or countries known \
-for low pay in this field.
+These are the candidate's own requirements. They are mandatory: if the posting explicitly breaks any of them, the decision MUST be "do_not_apply" immediately, regardless of how well the skills match.
+
+{preferences}
 
 How to handle missing information:
-- If the posting EXPLICITLY states something that breaks a rule above \
-(for example "Hybrid", "On-site", or an excluded country), the decision MUST \
-be "لا_تقدم".
-- If the posting is simply SILENT about the work arrangement or the location, \
-do NOT treat that as a violation. A missing detail is not a failure. In that \
-case the decision can be "قدم_بحذر" at best, never "قدم". List the unknown \
-item in missing_skills and name it in the reasoning so the user can verify it \
-before applying.
+- If the posting EXPLICITLY states something that breaks a rule above (for example a work arrangement or a location the candidate excluded), the decision MUST be "do_not_apply".
+- If the posting is simply SILENT about something a rule above depends on, do NOT treat that as a violation. A missing detail is not a failure. In that case the decision can be "apply_with_caution" at best, never "apply". List the unknown item in missing_skills and name it in the reasoning so the user can verify it before applying.
 </hard_constraints>
 
-Important: in the reasoning, tie every judgement to actual evidence from the \
-CV. Do NOT invent experience that is not present in the CV. If the evidence \
-for a requirement is missing, say so explicitly rather than assuming it.
+Important: in the reasoning, tie every judgement to actual evidence from the CV. Do NOT invent experience that is not present in the CV. If the evidence for a requirement is missing, say so explicitly rather than assuming it.
 """
 
-# ---------------------------------------------------------------------------
-# 2. Decision tool: the fixed JSON Schema Claude must fill in
-# ---------------------------------------------------------------------------
+NO_PREFERENCES = """The candidate has set no hard constraints. Judge the posting on the CV evidence alone, and never reject it for its work arrangement or location."""
+
+
+def build_system_prompt(preferences: str | None = None) -> str:
+    """Build the system prompt around the candidate's stored preferences."""
+    if preferences is None:
+        preferences = load_preferences()
+
+    preferences = preferences.strip()
+    return SYSTEM_PROMPT_TEMPLATE.format(preferences=preferences or NO_PREFERENCES)
 
 DECISION_TOOL = {
     "name": "submit_job_decision",
+    # strict makes the API enforce this schema, so "decision" can only ever be
+    # one of the three enum values below.
+    "strict": True,
     "description": (
         "Records the final job-analysis decision in a structured form. "
         "Always call this tool to return the result."
     ),
     "input_schema": {
         "type": "object",
+        "additionalProperties": False,
         "properties": {
             "decision": {
                 "type": "string",
-                "enum": ["قدم", "قدم_بحذر", "لا_تقدم"],
+                "enum": ["apply", "apply_with_caution", "do_not_apply"],
                 "description": "The final decision.",
             },
             "confidence": {
@@ -65,6 +64,7 @@ DECISION_TOOL = {
                 "type": "array",
                 "items": {
                     "type": "object",
+                    "additionalProperties": False,
                     "properties": {
                         "criterion": {
                             "type": "string",

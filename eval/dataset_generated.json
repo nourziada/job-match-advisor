@@ -1,54 +1,84 @@
 [
   {
-    "task_description": "Analyze a job posting against a Senior Laravel/PHP developer's CV (9+ years experience, ex-Team Lead) and give a clear apply / apply-with-caution / do-not-apply decision.",
-    "scenario": "Perfect match: fully remote, Europe-based company, Laravel/PHP senior role requiring leadership experience aligning exactly with the candidate's background.",
+    "task_description": "Given a candidate's CV and a job posting, decide whether the candidate should apply. The decision is exactly one of: \"apply\" (apply), \"apply_with_caution\" (apply with caution), \"do_not_apply\" (do not apply).",
+    "scenario": "Perfect match: fully remote React job in Europe, all CORE requirements present",
     "prompt_inputs": {
-      "job_posting": "Senior Laravel Developer (Team Lead)\nCompany: Nordic Web Solutions\nLocation: Berlin, Germany\nWork Arrangement: Fully Remote (work from anywhere in Europe)\n\nAbout the Role:\nWe are seeking a Senior Laravel Developer with proven team leadership experience to join our growing engineering department. You will lead a team of 5 developers, architect scalable backend systems, and mentor junior engineers.\n\nRequirements:\n- 8+ years of PHP development experience\n- 5+ years of hands-on Laravel experience\n- Prior experience as a Team Lead or Engineering Manager\n- Strong knowledge of MySQL, Redis, and RESTful API design\n- Experience with CI/CD pipelines and Docker\n- Excellent communication skills in English\n\nBenefits:\n- Fully remote position, flexible working hours\n- Competitive salary (70,000-90,000 EUR/year)\n- Annual company retreats in Europe\n- Health insurance and paid time off\n\nThis is a 100% remote role open to candidates based anywhere in Europe.\n"
+      "cv": "SUMMARY\nFront-end engineer with 5 years of experience building scalable web applications using React and TypeScript. Passionate about performance optimization and clean UI architecture.\n\nTECHNICAL SKILLS\n- Languages: JavaScript, TypeScript, HTML5, CSS3\n- Frameworks: React, Redux, Next.js\n- Testing: Jest, React Testing Library\n- Tools: Git, Webpack, Figma\n\nPROFESSIONAL EXPERIENCE\nSenior Front-End Developer, Nordic Web Solutions (Remote) — 2020-Present\n- Built and maintained large-scale React applications serving 1M+ monthly users\n- Led migration from JavaScript to TypeScript across the codebase\n- Mentored 3 junior developers\n\nFront-End Developer, PixelCraft Studio — 2018-2020\n- Developed responsive UIs with React and Redux\n- Collaborated with designers to implement Figma prototypes\n\nEDUCATION\nB.Sc. in Computer Science, University of Warsaw — 2018",
+      "job_posting": "Job Title: Senior React Developer\nLocation: Remote (Europe only)\nWork Arrangement: Fully Remote\n\nAbout the role:\nWe are looking for a Senior React Developer to join our distributed team building modern web applications.\n\nRequirements:\n- 4+ years of experience with React\n- Strong proficiency in TypeScript\n- Experience with Redux or similar state management\n\nNice to have:\n- Experience with Next.js\n- Familiarity with Figma\n- Knowledge of GraphQL"
     },
     "solution_criteria": [
-      "Concludes with a clear 'apply' decision",
-      "Recognizes the posting satisfies all hard constraints: fully Remote and located in Europe (Germany)",
-      "Highlights the strong alignment between candidate's 9+ years experience, Laravel expertise, and Team Lead background with the job requirements",
-      "Does not flag any hard-constraint violations"
+      "[MANDATORY] Concludes with 'apply'",
+      "[MANDATORY] Confirms the work arrangement is fully Remote and location is within Europe, so no hard constraint fails",
+      "[MANDATORY] Identifies that all CORE requirements (React 4+ years, TypeScript, Redux/state management) are present in the CV",
+      "[SECONDARY] Notes that Next.js and Figma are SECONDARY nice-to-have items already present but not required for the decision"
     ]
   },
   {
-    "task_description": "Analyze a job posting against a Senior Laravel/PHP developer's CV (9+ years experience, ex-Team Lead) and give a clear apply / apply-with-caution / do-not-apply decision.",
-    "scenario": "Partial match: remote job in North America matching core Laravel/PHP skills but requiring a secondary skill (Vue.js) the candidate lacks, and slightly more experience than the candidate has in a leadership capacity.",
+    "task_description": "Given a candidate's CV and a job posting, decide whether the candidate should apply. The decision is exactly one of: \"apply\" (apply), \"apply_with_caution\" (apply with caution), \"do_not_apply\" (do not apply).",
+    "scenario": "Exactly one CORE requirement absent: backend job requires Kubernetes experience which candidate lacks",
     "prompt_inputs": {
-      "job_posting": "Senior Backend Engineer (Laravel/Vue)\nCompany: BrightPath Technologies\nLocation: Austin, Texas, USA\nWork Arrangement: Remote (must be based in the United States or Canada)\n\nJob Description:\nBrightPath Technologies is looking for a Senior Backend Engineer to join our product team. This role will focus primarily on backend architecture but will also require occasional front-end contributions using Vue.js.\n\nRequirements:\n- 7+ years of PHP/Laravel experience\n- 3+ years of hands-on Vue.js development experience (required)\n- Experience managing engineering teams of 10+ people preferred\n- Strong understanding of queues, caching, and microservices architecture\n- Experience with AWS infrastructure\n- Excellent English communication skills\n\nWhat We Offer:\n- 100% remote work, based anywhere in the US or Canada\n- Salary range: $130,000-$150,000 USD\n- Flexible PTO policy\n- Stock options\n\nWe are especially interested in candidates who can demonstrate strong full-stack capabilities, including modern JavaScript frameworks.\n"
+      "cv": "SUMMARY\nBackend engineer with 6 years of experience designing microservices and REST APIs using Python and Go. Strong background in database design and CI/CD pipelines.\n\nTECHNICAL SKILLS\n- Languages: Python, Go, SQL\n- Frameworks: Django, FastAPI\n- Databases: PostgreSQL, Redis\n- Tools: Docker, Jenkins, GitHub Actions\n\nPROFESSIONAL EXPERIENCE\nSenior Backend Engineer, CloudNest Technologies (Remote) — 2019-Present\n- Designed and deployed microservices using Python and Go\n- Built CI/CD pipelines with Jenkins and GitHub Actions\n- Containerized services with Docker\n\nBackend Developer, DataFlow Inc. — 2016-2019\n- Built REST APIs with Django\n- Optimized PostgreSQL queries for high-traffic endpoints\n\nEDUCATION\nB.Sc. in Software Engineering, Technical University of Munich — 2016",
+      "job_posting": "Job Title: Senior Backend Engineer\nLocation: Remote (Gulf countries - UAE based company)\nWork Arrangement: Fully Remote\n\nRequirements:\n- 5+ years of backend development experience\n- Strong experience with Python\n- Proficiency in Kubernetes for container orchestration\n- Experience with relational databases\n\nNice to have:\n- Experience with Go\n- Familiarity with Redis\n- Knowledge of Terraform"
     },
     "solution_criteria": [
-      "Concludes with 'apply with caution' rather than outright 'apply' or 'do not apply'",
-      "Confirms the posting satisfies hard constraints: Remote and located in North America (USA)",
-      "Identifies the Vue.js requirement as a gap not covered by the candidate's Laravel/PHP-focused CV",
-      "Notes the difference between the candidate's team lead experience and the job's preference for managing larger teams (10+) as a minor mismatch"
+      "[MANDATORY] Concludes with 'apply_with_caution'",
+      "[MANDATORY] Confirms the work arrangement (Remote) and location (Gulf/UAE) pass the hard constraints",
+      "[MANDATORY] Identifies Kubernetes as the single missing CORE requirement while Python, backend experience, and relational databases are present",
+      "[SECONDARY] Notes Go and Redis are SECONDARY items already present in the CV but not decisive"
     ]
   },
   {
-    "task_description": "Analyze a job posting against a Senior Laravel/PHP developer's CV (9+ years experience, ex-Team Lead) and give a clear apply / apply-with-caution / do-not-apply decision.",
-    "scenario": "Wrong-framework candidate: a fully remote, well-located job that is a strong opportunity in general but requires deep Node.js/Python expertise rather than PHP/Laravel, making it a poor technical fit despite meeting hard constraints.",
+    "task_description": "Given a candidate's CV and a job posting, decide whether the candidate should apply. The decision is exactly one of: \"apply\" (apply), \"apply_with_caution\" (apply with caution), \"do_not_apply\" (do not apply).",
+    "scenario": "Wrong tech stack: mobile job requires Swift/iOS and Kotlin/Android natively, candidate is a data scientist with unrelated stack",
     "prompt_inputs": {
-      "job_posting": "Senior Backend Engineer (Node.js/Python)\nCompany: CloudScale Analytics\nLocation: Toronto, Canada\nWork Arrangement: Fully Remote (open to candidates across North America)\n\nAbout Us:\nCloudScale Analytics builds real-time data processing pipelines for enterprise clients. We are expanding our backend team and looking for a Senior Backend Engineer.\n\nRequirements:\n- 6+ years of backend development experience\n- Expert-level proficiency in Node.js and Python (required, no PHP experience needed)\n- Experience with Kafka, Kubernetes, and distributed systems\n- Strong background in building high-throughput microservices\n- Experience with GraphQL APIs\n- Prior leadership or mentoring experience is a plus\n\nWhat We Offer:\n- 100% remote, work from anywhere in North America\n- Salary: $140,000-$160,000 USD\n- Comprehensive benefits package\n- Annual learning budget\n\nThis position requires deep expertise in our core stack (Node.js, Python) as we do not use PHP anywhere in our systems.\n"
+      "cv": "SUMMARY\nData scientist with 4 years of experience building machine learning models for fraud detection and recommendation systems. Skilled in Python-based data pipelines.\n\nTECHNICAL SKILLS\n- Languages: Python, R, SQL\n- Libraries: Scikit-learn, TensorFlow, Pandas, NumPy\n- Tools: Jupyter, Airflow, Tableau\n\nPROFESSIONAL EXPERIENCE\nData Scientist, InsightWorks Analytics (Remote) — 2020-Present\n- Built fraud detection models using TensorFlow and Scikit-learn\n- Designed ETL pipelines with Airflow\n- Created dashboards in Tableau for stakeholder reporting\n\nJunior Data Analyst, MarketPulse — 2018-2020\n- Performed statistical analysis using R and SQL\n- Automated reporting workflows\n\nEDUCATION\nM.Sc. in Data Science, University of Toronto — 2018",
+      "job_posting": "Job Title: Senior iOS Developer\nLocation: Remote (United States)\nWork Arrangement: Fully Remote\n\nRequirements:\n- 4+ years of experience developing native iOS applications\n- Strong proficiency in Swift\n- Experience with UIKit and SwiftUI\n- Familiarity with Xcode and App Store deployment process\n\nNice to have:\n- Experience with Kotlin for cross-platform work\n- Knowledge of CoreData"
     },
     "solution_criteria": [
-      "Concludes with 'do not apply' or at minimum a strongly cautioned 'apply with caution' due to fundamental tech-stack mismatch",
-      "Confirms the posting does satisfy hard constraints (Remote, North America) but correctly identifies that the core tech stack (Node.js/Python) does not match the candidate's Laravel/PHP background",
-      "Explicitly notes the posting states no PHP experience is needed, making the candidate's core expertise irrelevant",
-      "Does not recommend applying purely based on general seniority or leadership experience while ignoring the tech mismatch"
+      "[MANDATORY] Concludes with 'do_not_apply'",
+      "[MANDATORY] Identifies that at least two CORE requirements (native iOS/Swift experience, UIKit/SwiftUI) are absent from the CV",
+      "[SECONDARY] Notes the hard constraints (Remote, US location) actually pass, but the decision is driven by missing CORE skills",
+      "[SECONDARY] Mentions the candidate's data science background is entirely unrelated to the mobile development stack required"
     ]
   },
   {
-    "task_description": "Analyze a job posting against a Senior Laravel/PHP developer's CV (9+ years experience, ex-Team Lead) and give a clear apply / apply-with-caution / do-not-apply decision.",
-    "scenario": "Hard-constraint failure: an on-site role based in Egypt that otherwise matches the candidate's skill set perfectly, testing that the tool rejects it outright due to work arrangement and excluded location.",
+    "task_description": "Given a candidate's CV and a job posting, decide whether the candidate should apply. The decision is exactly one of: \"apply\" (apply), \"apply_with_caution\" (apply with caution), \"do_not_apply\" (do not apply).",
+    "scenario": "Hard-constraint failure: otherwise perfect CV but job is On-site in Germany",
     "prompt_inputs": {
-      "job_posting": "Senior Laravel Developer / Team Lead\nCompany: Nile Software Solutions\nLocation: Cairo, Egypt\nWork Arrangement: On-site only (candidates must relocate to Cairo, no remote or hybrid option available)\n\nJob Description:\nNile Software Solutions is hiring an experienced Senior Laravel Developer to lead our backend engineering team. This is an on-site position based at our Cairo headquarters.\n\nRequirements:\n- 8+ years of PHP development experience\n- 5+ years of Laravel framework experience\n- Previous experience as a Team Lead managing a team of developers\n- Strong knowledge of MySQL, Redis, and API design\n- Experience with Agile/Scrum methodologies\n- Must be willing to work full-time on-site in our Cairo office\n\nBenefits:\n- Competitive local salary package\n- Relocation assistance provided for the right candidate\n- On-site gym and cafeteria\n- Career growth opportunities within the company\n\nNote: This role does not offer remote or hybrid work options. All employees are must be based in Cairo, Egypt full-time on-site on a full-time basis.\n"
+      "cv": "SUMMARY\nDevOps engineer with 7 years of experience automating infrastructure and managing cloud environments at scale. Expert in AWS, Terraform, and Kubernetes.\n\nTECHNICAL SKILLS\n- Cloud: AWS, Azure\n- IaC: Terraform, CloudFormation\n- Orchestration: Kubernetes, Docker\n- Languages: Python, Bash\n- Monitoring: Prometheus, Grafana\n\nPROFESSIONAL EXPERIENCE\nLead DevOps Engineer, ScaleUp Systems (Remote) — 2018-Present\n- Managed multi-region AWS infrastructure with Terraform\n- Orchestrated container workloads with Kubernetes\n- Implemented monitoring stack using Prometheus and Grafana\n\nDevOps Engineer, GridTech Solutions — 2015-2018\n- Automated deployment pipelines with Python and Bash scripts\n- Migrated on-prem infrastructure to AWS\n\nEDUCATION\nB.Sc. in Information Technology, RWTH Aachen University — 2015",
+      "job_posting": "Job Title: Lead DevOps Engineer\nLocation: Berlin, Germany (on-site required)\nWork Arrangement: On-site, 5 days a week in our Berlin office\n\nRequirements:\n- 6+ years of DevOps experience\n- Strong expertise in AWS and Terraform\n- Hands-on experience with Kubernetes\n- Experience with monitoring tools like Prometheus\n\nNice to have:\n- Experience with Azure\n- Knowledge of Grafana dashboards"
     },
     "solution_criteria": [
-      "Concludes with 'do not apply' regardless of the strong skill match",
-      "Explicitly cites the on-site work arrangement as a hard-constraint violation",
-      "Explicitly cites the Egypt location as an excluded country under the hard constraints",
-      "Does not let the strong technical/experience match override the hard-constraint rejection"
+      "[MANDATORY] Concludes with 'do_not_apply'",
+      "[MANDATORY] Explicitly identifies the On-site work arrangement in Germany as a hard-constraint violation, regardless of skill match",
+      "[SECONDARY] Acknowledges that all CORE requirements (AWS, Terraform, Kubernetes, Prometheus, 6+ years experience) are otherwise present in the CV"
+    ]
+  },
+  {
+    "task_description": "Given a candidate's CV and a job posting, decide whether the candidate should apply. The decision is exactly one of: \"apply\" (apply), \"apply_with_caution\" (apply with caution), \"do_not_apply\" (do not apply).",
+    "scenario": "Hard-constraint failure: job based in Egypt with strong skill match",
+    "prompt_inputs": {
+      "cv": "SUMMARY\nFull-stack developer with 5 years of experience building web applications using Node.js and Vue.js. Comfortable working across the entire stack from database to UI.\n\nTECHNICAL SKILLS\n- Languages: JavaScript, TypeScript\n- Frameworks: Node.js, Express, Vue.js\n- Databases: MongoDB, MySQL\n- Tools: Docker, Git, Postman\n\nPROFESSIONAL EXPERIENCE\nFull-Stack Developer, BrightPath Digital (Remote) — 2019-Present\n- Built RESTful APIs using Node.js and Express\n- Developed front-end interfaces with Vue.js\n- Managed MongoDB and MySQL databases\n\nJunior Developer, WebCraft Agency — 2017-2019\n- Assisted in building e-commerce platforms with Node.js\n- Wrote unit and integration tests\n\nEDUCATION\nB.Sc. in Computer Engineering, Cairo University — 2017",
+      "job_posting": "Job Title: Full-Stack Developer (Node.js/Vue.js)\nLocation: Cairo, Egypt\nWork Arrangement: Fully Remote\n\nRequirements:\n- 4+ years of full-stack development experience\n- Strong proficiency in Node.js\n- Experience with Vue.js\n- Experience with MongoDB\n\nNice to have:\n- Experience with Docker\n- Familiarity with MySQL"
+    },
+    "solution_criteria": [
+      "[MANDATORY] Concludes with 'do_not_apply'",
+      "[MANDATORY] Explicitly identifies that the job location being in Egypt triggers a hard-constraint violation regardless of remote arrangement or skill match",
+      "[SECONDARY] Notes that all CORE requirements (Node.js, Vue.js, MongoDB, 4+ years experience) are otherwise present in the CV"
+    ]
+  },
+  {
+    "task_description": "Given a candidate's CV and a job posting, decide whether the candidate should apply. The decision is exactly one of: \"apply\" (apply), \"apply_with_caution\" (apply with caution), \"do_not_apply\" (do not apply).",
+    "scenario": "Posting silent about location and arrangement, all CORE skills present -> capped at apply with caution",
+    "prompt_inputs": {
+      "cv": "SUMMARY\nData engineer with 5 years of experience building large-scale data pipelines and warehousing solutions using Spark and SQL.\n\nTECHNICAL SKILLS\n- Languages: Python, Scala, SQL\n- Big Data: Apache Spark, Hadoop, Kafka\n- Warehousing: Snowflake, Redshift\n- Tools: Airflow, dbt, Git\n\nPROFESSIONAL EXPERIENCE\nSenior Data Engineer, StreamCore Analytics — 2019-Present\n- Built distributed data pipelines using Apache Spark and Kafka\n- Migrated legacy warehouse to Snowflake\n- Orchestrated workflows with Airflow and dbt\n\nData Engineer, MetricLabs — 2017-2019\n- Developed ETL processes using Python and SQL\n- Maintained Hadoop cluster for batch processing\n\nEDUCATION\nM.Sc. in Computer Science, ETH Zurich — 2017",
+      "job_posting": "Job Title: Senior Data Engineer\n\nAbout us:\nWe are a fast-growing analytics company looking for a Senior Data Engineer to strengthen our data platform team.\n\nRequirements:\n- 4+ years of experience in data engineering\n- Strong experience with Apache Spark\n- Proficiency in SQL\n- Experience with data warehousing solutions (Snowflake, Redshift, or similar)\n\nNice to have:\n- Experience with Kafka\n- Knowledge of dbt\n- Familiarity with Airflow"
+    },
+    "solution_criteria": [
+      "[MANDATORY] Concludes with 'apply_with_caution'",
+      "[MANDATORY] Notes that the posting does not explicitly state the work arrangement or location, which caps the decision at 'apply_with_caution' even though all CORE requirements are met",
+      "[SECONDARY] Confirms all CORE requirements (Spark, SQL, data warehousing, 4+ years experience) are present in the CV",
+      "[SECONDARY] Mentions Kafka, dbt, and Airflow as SECONDARY nice-to-have items already present but not relevant to the capping decision"
     ]
   }
 ]

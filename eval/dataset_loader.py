@@ -1,24 +1,25 @@
 import json
 import os
 
-# الملفان اللي بنقرأ منهم:
-#   dataset.json           -> حالاتك اليدوية (من تجاربك الحقيقية)
-#   dataset_generated.json -> الحالات اللي Claude ولّدها (generate_dataset.py)
-MANUAL_PATH = "eval/dataset.json"
-GENERATED_PATH = "eval/dataset_generated.json"
+from config import BASE_DIR
+
+# Paths are resolved from the project root rather than the working directory,
+# so the evaluation runs the same from a terminal or from an IDE run button.
+MANUAL_PATH = os.path.join(BASE_DIR, "eval", "dataset.json")
+GENERATED_PATH = os.path.join(BASE_DIR, "eval", "dataset_generated.json")
 
 
 def load_dataset(path: str = MANUAL_PATH) -> list:
-    """يقرأ حالات الاختبار من ملف JSON ويرجّعها كـ list."""
+    """Read test cases from a JSON file and return them as a list."""
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
 def _load_tagged(path: str, source: str) -> list:
-    """
-    يقرأ ملف حالات ويحطّ على كل حالة علامة مصدرها.
-    لو الملف مش موجود بيرجّع list فاضية بدل ما يقع — عشان التقييم يشتغل
-    حتى لو لسه ماولّدتش حالات.
+    """Read a dataset file and tag every case with its source.
+
+    A missing file yields an empty list so the evaluation still runs before
+    any cases have been generated.
     """
     if not os.path.exists(path):
         return []
@@ -33,21 +34,17 @@ def load_all_datasets(
     manual_path: str = MANUAL_PATH,
     generated_path: str = GENERATED_PATH,
 ) -> list:
-    """
-    يدمج المصدرين في list واحدة: الحالات اليدوية الأول، وبعدها المولّدة.
+    """Merge the manual and generated cases into a single list.
 
-    - كل حالة بتتوسم بـ source = "يدوي" أو "مولّد" عشان تعرف في التقرير
-      إذا كانت الدرجة الواطية جاية من حالة حقيقية ولا من حالة صناعية.
-    - الحالات المكرّرة (نفس نص الوظيفة) بتتشال، والنسخة اليدوية هي اللي بتفضل
-      لأنها الأوثق.
+    Manual cases come first and win on duplicates, compared by job posting
+    text, since they are the more trustworthy source.
     """
-    manual = _load_tagged(manual_path, "يدوي")
-    generated = _load_tagged(generated_path, "مولّد")
+    manual = _load_tagged(manual_path, "manual")
+    generated = _load_tagged(generated_path, "generated")
 
     merged = []
     seen = set()
     for case in manual + generated:
-        # بنقارن بنص الوظيفة نفسه عشان نمسك التكرار
         key = case.get("prompt_inputs", {}).get("job_posting", "").strip()
         if key and key in seen:
             continue

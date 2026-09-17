@@ -11,7 +11,7 @@ PREFERENCES_PATH = os.path.join(DATA_DIR, "preferences.txt")
 DEFAULT_PREFERENCES = """1. The job must be fully Remote. Exclude Hybrid and On-site roles.
 2. The company/role location must be within: Europe, North America, or the \
 Gulf countries (GCC).
-3. Exclude any job based in: India or Egypt."""
+3. Exclude any job based in: X Country."""
 
 
 def load_preferences() -> str:

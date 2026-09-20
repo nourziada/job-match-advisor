@@ -6,6 +6,7 @@ Built with Python, Streamlit, and the Claude API. It runs on *any* CV: the speci
 
 ![Python](https://img.shields.io/badge/python-3.11+-blue)
 ![Streamlit](https://img.shields.io/badge/UI-Streamlit-red)
+![MCP](https://img.shields.io/badge/MCP-server-purple)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 
 ---
@@ -35,6 +36,7 @@ The decision runs as a **chain**: extract the job's requirements, retrieve the r
 - **Editable guidelines** — tune the decision rules from the UI; they persist between sessions.
 - **Streaming summary** — a human-readable explanation streams live under the verdict.
 - **Built-in evaluation** — a criteria-based test suite scores the agent's accuracy and renders an HTML report.
+- **MCP server** — the same analysis is callable from Claude Desktop as a tool, not just from the UI.
 
 ## Quick start
 
@@ -72,6 +74,7 @@ Set these in your `.env` file:
 ```
 job-match-advisor/
 ├── app.py            # Streamlit interface
+├── mcp_server.py     # same analysis, exposed as MCP tools
 ├── config.py         # env + paths
 ├── rag/              # PDF loading, chunking, embeddings, search
 ├── tools/            # Claude client + the analysis chain
@@ -86,6 +89,23 @@ The agent ships with a criteria-based evaluation harness. Each test case describ
 
 ```bash
 uv run python run_report.py
+```
+
+## Use it from Claude (MCP)
+
+The same analysis is also exposed as an [MCP](https://modelcontextprotocol.io) server, so you can use the agent from inside a conversation instead of opening the UI. Ask Claude *"analyse this job against my CV"*, paste the posting, and it calls the tool itself.
+
+| Tool | What it does |
+|---|---|
+| `search_cv` | Returns the CV passages most relevant to a question |
+| `evaluate_job` | Runs the full chain and returns the structured verdict |
+
+```bash
+# test the server on its own first
+uv run mcp dev mcp_server.py
+
+# then register it with Claude Desktop
+uv run mcp install mcp_server.py
 ```
 
 ## Notes
